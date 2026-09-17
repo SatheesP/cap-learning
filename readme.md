@@ -68,3 +68,37 @@ cds serve all --with-mocks --in-memory?
     No models found in db/,srv/,app/,app/*.
     Waiting for some to arrive...
 ```
+
+## Add a domain / data model
+- Add `schema.cds` file to folder  `/db`
+- Define a simple entity `Books` as part of the namespace 'my.bookshop'
+    ```cds
+    namespace my.bookshop;
+
+    entity Books {
+        key ID : Integer;
+        title  : String(100);
+        descr  : String(255);
+        author : String(100);
+    }
+    ```
+- Terminal window issue the command `cds watch`
+    ```
+            ___________________________
+    
+    [cds] - loaded model from 1 file(s):
+    
+    db\schema.cds
+
+    [cds] - using bindings from: { registry: '~/.cds-services.json' }
+    [cds] - connect to db > sqlite { url: ':memory:' }
+    /> successfully deployed to in-memory database. 
+
+    [cds] - server listening on { url: 'http://localhost:4004' }
+    [cds] - server v10.1.1 launched in 360 ms
+    [cds] - [ terminate with ^C ]
+
+
+        No service definitions found in loaded models.
+        Waiting for some to arrive...
+    ```
