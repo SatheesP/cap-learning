@@ -22,23 +22,49 @@ File or Folder | Purpose
 Learn more at <https://cap.cloud.sap>.
 
 ## CAP Node.js Project Setup
-- Already if you are in project folder then  
-`cds init`  
-- If not  
-`cds init <proj folder>`  
-- then for Node.js facet  
-`cds add ndoejs` (or) initial itself `cds init --add nodejs` then  
-`npm install` (or) `npm i` to install dependencies
-without adding Node.js facet and npm install, when issuing `cds watch`  
-in terminal window you may get the error "**ERR_UNSUPPORTED_ESM_URL_SCHEME**"
-- `cds watch` looking for domain model / service model / annotation cds files
-    ```
-    cds serve all --with-mocks --in-memory? 
-    ( live reload enabled for browsers ) 
 
-            ___________________________
-    
+Follow these steps to bootstrap a new CAP project with the Node.js runtime.
 
-        No models found in db/,srv/,app/,app/*.
-        Waiting for some to arrive...
-    ```
+**1. Initialize the project**
+
+If you're already inside your project folder, run:
+```
+cds init
+```
+Otherwise, initialize a new folder directly:
+```
+cds init <proj folder>
+```
+
+**2. Add the Node.js facet**
+
+Add Node.js support to an existing project:
+```
+cds add nodejs
+```
+Or combine both steps by adding Node.js during initialization:
+```
+cds init --add nodejs
+```
+
+**3. Install dependencies**
+
+```
+npm install
+```
+
+> **Note:** Skipping the Node.js facet or the `npm install` step will cause `cds watch` to fail with the error `ERR_UNSUPPORTED_ESM_URL_SCHEME`.
+
+**4. Start the development server**
+
+Once set up, `cds watch` continuously scans your project for domain models, service definitions, and annotation files. If none are found yet, it will simply wait until you add one:
+```
+cds serve all --with-mocks --in-memory? 
+( live reload enabled for browsers ) 
+
+        ___________________________
+
+
+    No models found in db/,srv/,app/,app/*.
+    Waiting for some to arrive...
+```
