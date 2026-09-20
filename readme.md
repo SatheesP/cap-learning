@@ -191,3 +191,89 @@ CAP makes it easy to generate CSV files for your entities:
   ```
   cds add data -n 10 -o test/data
   ```
+
+## Test Service using REST CLIENT
+
+Instead of testing your OData service manually through the browser, you can use the **REST Client** VS Code extension to fire real HTTP requests straight from a `.http` file — and keep them versioned alongside your project for later reuse.
+
+> **Shortcut:** CAP can generate these request files for you automatically. Running `cds add http` scaffolds one `.http` file per service (e.g. `test/http/CatalogService.http`), pre-populated with `@server`, `@username`, and `@password` variables plus a ready-to-run `GET`, `POST`, `PATCH`, and `DELETE` request for each exposed entity. It's a great starting point — just open the generated file and extend it with the `$filter` examples shown below.
+
+**1. Install the extension**
+
+Search for **REST Client** (by Huachao Mao) in the VS Code Extensions view and install it.
+
+**2. Create a requests file**
+
+Add a file named `test.http` (any `.http` or `.rest` extension works) inside the `test/http/` folder, and define a reusable base URL:
+```http
+@baseUrl = http://localhost:4004/odata/v4/catalog
+```
+
+**3. Read all records (GET)**
+
+```http
+### Get all books
+GET {{baseUrl}}/Books
+Accept: application/json
+```
+
+**4. Filter records with `$filter` (GET)**
+
+OData's `$filter` query option lets you narrow down results without writing any server-side code. For example, find every book written by a specific author:
+```http
+### Get books by a specific author
+GET {{baseUrl}}/Books?$filter=author eq 'A.P.J. Abdul Kalam'
+Accept: application/json
+```
+
+You can combine conditions, use functions like `contains`, or filter by numeric fields too:
+```http
+### Get books whose title contains a keyword
+GET {{baseUrl}}/Books?$filter=contains(title,'Tamil')
+Accept: application/json
+
+### Get a single book by its key
+GET {{baseUrl}}/Books?$filter=ID eq 1
+Accept: application/json
+```
+
+**5. Create a record (POST)**
+
+```http
+### Create a new book
+POST {{baseUrl}}/Books
+Content-Type: application/json
+
+{
+  "ID": 21,
+  "title": "Kural in English",
+  "descr": "A modern verse translation of the Tamil classic Thirukkural",
+  "author": "P.S. Sundaram"
+}
+```
+
+**6. Update a record (PATCH)**
+
+OData V4 favors `PATCH` for partial updates — you only send the fields that changed:
+```http
+### Update the description of an existing book
+PATCH {{baseUrl}}/Books(21)
+Content-Type: application/json
+
+{
+  "descr": "A widely read modern English rendering of the Thirukkural"
+}
+```
+
+**7. Delete a record (DELETE)**
+
+```http
+### Remove a book
+DELETE {{baseUrl}}/Books(21)
+```
+
+**8. Run the requests**
+
+Click the **Send Request** link that appears above each request block in the `.http` file (or use the shortcut `Ctrl+Alt+R`), and the response — including status code, headers, and body — will open right next to it in a split view.
+
+> **Tip:** Keep each request separated by a line starting with `###` — this lets REST Client treat them as independent, individually runnable requests within the same file.

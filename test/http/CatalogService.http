@@ -1,0 +1,44 @@
+@server=http://localhost:4004
+@username=alice
+@password=
+
+
+### Books
+# @name Books_GET
+GET {{server}}/odata/v4/catalog/Books
+Authorization: Basic {{username}}:{{password}}
+
+
+### Books
+# @name Books_POST
+POST {{server}}/odata/v4/catalog/Books
+Content-Type: application/json
+Authorization: Basic {{username}}:{{password}}
+
+{
+  "ID": 27517703,
+  "title": "title-27517703",
+  "descr": "descr-27517703",
+  "author": "author-27517703"
+}
+
+
+### Books
+# @name Books_PATCH
+PATCH {{server}}/odata/v4/catalog/Books/27517703
+Content-Type: application/json
+Authorization: Basic {{username}}:{{password}}
+
+{
+  "ID": 27517703,
+  "title": "title-27517703",
+  "descr": "descr-27517703",
+  "author": "author-27517703"
+}
+
+
+### Books
+# @name Books_DELETE
+DELETE {{server}}/odata/v4/catalog/Books/27517703
+Content-Type: application/json
+Authorization: Basic {{username}}:{{password}}
