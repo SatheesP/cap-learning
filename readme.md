@@ -166,9 +166,9 @@ impl: 'node_modules\\@sap\\cds\\srv\\app-service.js'
 
 **4. Explore the service**
 
-Open <http://localhost:4004> in your browser. You'll find the following links:
+Open <http://localhost:4004> in your browser or `Ctrl+Shift+P`, type **Browser: Open Itegrated Browser**, press Enter, then type the URL (e.g. http://localhost:4004) when prompted. . You'll find the following links:
 
-Service document | Metadata | Entity set(s) | Fiori Preview
+Service document | Metadata | Entity sets | Fiori Preview
 -------|------|---------|--------
 odata/v4/catalog | $metadata | Books | Fiori preview
 
