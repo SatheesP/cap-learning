@@ -70,35 +70,48 @@ cds serve all --with-mocks --in-memory?
 ```
 
 ## Add a domain / data model
-- Add `schema.cds` file to folder  `/db`
-- Define a simple entity `Books` as part of the namespace 'my.bookshop'
-    ```cds
-    namespace my.bookshop;
 
-    entity Books {
-        key ID : Integer;
-        title  : String(100);
-        descr  : String(255);
-        author : String(100);
-    }
-    ```
-- Terminal window issue the command `cds watch`
-    ```
-            ___________________________
-    
-    [cds] - loaded model from 1 file(s):
-    
-    db\schema.cds
+Domain models describe the structure of your business data using CDS entities. Let's define a simple one for the bookshop.
 
-    [cds] - using bindings from: { registry: '~/.cds-services.json' }
-    [cds] - connect to db > sqlite { url: ':memory:' }
-    /> successfully deployed to in-memory database. 
+**1. Create the schema file**
 
-    [cds] - server listening on { url: 'http://localhost:4004' }
-    [cds] - server v10.1.1 launched in 360 ms
-    [cds] - [ terminate with ^C ]
+Add a `schema.cds` file inside the `/db` folder — this is where CAP expects your domain models to live.
+
+**2. Define an entity**
+
+Declare a `Books` entity within the `my.bookshop` namespace:
+```cds
+namespace my.bookshop;
+
+entity Books {
+    key ID : Integer;
+    title  : String(100);
+    descr  : String(255);
+    author : String(100);
+}
+```
+
+**3. Reload the watcher**
+
+With `cds watch` still running (or freshly started) in your terminal, it automatically picks up the new model, loads it, and spins up an in-memory SQLite database for you:
+```
+        ___________________________
+
+[cds] - loaded model from 1 file(s):
+
+db\schema.cds
+
+[cds] - using bindings from: { registry: '~/.cds-services.json' }
+[cds] - connect to db > sqlite { url: ':memory:' }
+/> successfully deployed to in-memory database. 
+
+[cds] - server listening on { url: 'http://localhost:4004' }
+[cds] - server v10.1.1 launched in 360 ms
+[cds] - [ terminate with ^C ]
 
 
-        No service definitions found in loaded models.
-        Waiting for some to arrive...
-    ```
+    No service definitions found in loaded models.
+    Waiting for some to arrive...
+```
+
+> **Note:** At this point, your data model exists but isn't exposed anywhere yet. That message about "no service definitions" is expected — you'll fix that in the next step by exposing this entity through a service.
